@@ -4,23 +4,23 @@
 # @depends quality controlled MatrixTables with variants.
 #
 #SBATCH --account=lindgren.prj
-#SBATCH --job-name=explode
+#SBATCH --job-name=annotate
 #SBATCH --chdir=/well/lindgren-ukbb/projects/ukbb-11867/flassen/projects/KO/for_nik
-#SBATCH --output=logs/explode.log
-#SBATCH --error=logs/explode.errors.log
+#SBATCH --output=logs/annotate.log
+#SBATCH --error=logs/annotate.errors.log
 #SBATCH --partition=short
 #SBATCH --cpus-per-task 1
 #SBATCH --array=22
 
 #
-#$ -N explode
+#$ -N annotate
 #$ -wd /well/lindgren-ukbb/projects/ukbb-11867/flassen/projects/KO/for_nik
-#$ -o logs/explode.log
-#$ -e logs/explode.errors.log
+#$ -o logs/annotate.log
+#$ -e logs/annotate.errors.log
 #$ -P lindgren.prjc
 #$ -pe shmem 1
 #$ -q short.qc
-#$ -t 1-22
+#$ -t 23
 #$ -V
 
 set -o errexit
@@ -37,18 +37,21 @@ readonly chr=$( get_chr ${array_idx} )
 readonly in_dir="data/vep/hail"
 readonly in="${in_dir}/ukb_wes_450k.qced.chr${chr}.vep.ht"
 
-readonly out_dir="data/vep/explode"
-readonly out_prefix="${out_dir}/ukb_wes_450k.qced.chr${chr}"
-readonly hail_script="scripts/02_explode.py"
+readonly spliceai_dir="data/spliceai"
+readonly spliceai_path="${spliceai_dir}/ukb_wes_450k.qced.sites_only.all.vcf"
+
+readonly out_dir="data/vep/annotated"
+readonly out_prefix="${out_dir}/ukb_wes_450k.qced.spliceai.chr${chr}"
+readonly hail_script="scripts/02_annotate.py"
 
 mkdir -p ${out_dir}
 mkdir -p ${spark_dir}
 
 set_up_hail 0.2.97
-set_up_vep
 set_up_pythonpath_legacy  
 python3 ${hail_script} \
      --input_path "${in}" \
+     --spliceai_path "${splcieai_path}" \
      --out_prefix "${out_prefix}"
 
 

@@ -12,11 +12,16 @@ def main(args):
     # parser
     input_path = args.input_path
     out_prefix = args.out_prefix
+    spliceai_path = args.spliceai_path
 
     # setup flags
     hail_init.hail_bmrc_init_local('logs/hail/hail_format.log', 'GRCh38')
     hl._set_flags(no_whole_stage_codegen='1') # from zulip
     ht = hl.read_table(input_path)
+
+    # annotate with spliceai
+    sai = hl.import_vcf(spliceai_path)
+    ht = ht.annotate(SpliceAI = sai.index_rows(ht.key).info.SpliceAI)
 
     # explode consequence   
     ht = ht.explode(ht.vep.worst_csq_by_gene_canonical)
@@ -48,6 +53,7 @@ if __name__=='__main__':
     parser = argparse.ArgumentParser()
     # initial params
     parser.add_argument('--input_path', default=None, help='Path to input')
+    parser.add_argument('--spliceai_path', default=None, help='Path to spliceai VCF')
     parser.add_argument('--out_prefix', default=None, help='Path prefix for output dataset')
 
     args = parser.parse_args()
