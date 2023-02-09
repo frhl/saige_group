@@ -18,10 +18,8 @@ def main(args):
     hail_init.hail_bmrc_init_local('logs/hail/hail_format.log', 'GRCh38')
     hl._set_flags(no_whole_stage_codegen='1') # from zulip
     ht = hl.read_table(vep_path)
-
-    # annotate with spliceai
     spliceai = hl.read_table(spliceai_path)
-    ht = ht.annotate(SpliceAI = sai.index_rows(ht.key).info.SpliceAI)
+    
     # get variant by canonical gene transcripts
     ht = ht.explode(ht.vep.worst_csq_by_gene_canonical)
     # spliceAI is also run against GENCODE V24 canonical, so it
