@@ -10,7 +10,7 @@
 #SBATCH --error=logs/annotate.errors.log
 #SBATCH --partition=short
 #SBATCH --cpus-per-task 1
-#SBATCH --array=22
+#SBATCH --array=20-22
 
 #
 #$ -N annotate
@@ -20,7 +20,7 @@
 #$ -P lindgren.prjc
 #$ -pe shmem 1
 #$ -q short.qc
-#$ -t 23
+#$ -t 22
 #$ -V
 
 set -o errexit
@@ -34,15 +34,15 @@ readonly spark_dir="data/tmp/spark"
 readonly array_idx=$( get_array_task_id )
 readonly chr=$( get_chr ${array_idx} )
 
-readonly in_dir="data/vep/hail"
-readonly in="${in_dir}/ukb_wes_450k.qced.chr${chr}.vep.ht"
+readonly vep_dir="data/vep/hail"
+readonly vep="${vep_dir}/ukb_wes_450k.qced.chr${chr}.vep.ht"
 
 readonly spliceai_dir="data/spliceai"
-readonly spliceai_path="${spliceai_dir}/ukb_wes_450k.qced.sites_only.all.vcf"
+readonly spliceai_path="${spliceai_dir}/ukb_wes_450k.spliceai.chr${chr}.ht"
 
 readonly out_dir="data/vep/annotated"
-readonly out_prefix="${out_dir}/ukb_wes_450k.qced.spliceai.chr${chr}"
-readonly hail_script="scripts/02_annotate.py"
+readonly out_prefix="${out_dir}/ukb_wes_450k.qced.brava.v1.chr${chr}"
+readonly hail_script="scripts/03_annotate.py"
 
 mkdir -p ${out_dir}
 mkdir -p ${spark_dir}
@@ -50,8 +50,8 @@ mkdir -p ${spark_dir}
 set_up_hail 0.2.97
 set_up_pythonpath_legacy  
 python3 ${hail_script} \
-     --input_path "${in}" \
-     --spliceai_path "${splcieai_path}" \
+     --vep_path "${vep}" \
+     --spliceai_path "${spliceai_path}" \
      --out_prefix "${out_prefix}"
 
 
