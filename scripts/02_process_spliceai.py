@@ -5,38 +5,56 @@ import argparse
 
 from ukb_utils import hail_init
 from ko_utils import io
-from ko_utils import ko
 
 def main(args):
 
-    # parser
-    input_path = args.input_path
     spliceai_path = args.spliceai_path
+    out_prefix = args.out_prefix
     chrom = args.chrom
 
+    #
     hail_init.hail_bmrc_init_local('logs/hail/hail_format.log', 'GRCh38')
-    
-    # read spliceAI data 
-    ht = hl.read_table(spliceai_path)
+    ht = hl.read_matrix_table(spliceai_path)
     ht = ht.rows()
-    ht = ht.filter(ht.locus.contig == chrom) 
-
-    # annotate based on this: https://github.com/Illumina/SpliceAI
+    ht = ht.annotate(spliceai = ht.info.SpliceAI[0].split("\\|"))
+  
+    # extract values 
     ht = ht.annotate(SpliceAI = hl.struct(
-        ALLELE = ht.info.SpliceAI[0],
-        SYMBOL = ht.info.SpliceAI[1],
-        DS_AG = hl.float32(ht.info.SpliceAI[2]),
-        DS_AL = hl.float32(ht.info.SpliceAI[3]),
-        DS_DG = hl.float32(ht.info.SpliceAI[4]),
-        DS_DL = hl.float32(ht.info.SpliceAI[5]),
-        DP_AG = hl.int32(ht.info.SpliceAI[6]),
-        DP_AL = hl.int32(ht.info.SpliceAI[7]),
-        DP_DG = hl.int32(ht.info.SpliceAI[8]),
-        DP_DL = hl.int32(ht.info.SpliceAI[9])
+        ALLELE = ht.spliceai[0],
+        SYMBOL = ht.spliceai[1],
+        DS_AG = hl.float32(ht.spliceai[2]),
+        DS_AL = hl.float32(ht.spliceai[3]),
+        DS_DG = hl.float32(ht.spliceai[4]),
+        DS_DL = hl.float32(ht.spliceai[5]),
+        DP_AG = hl.int32(ht.spliceai[6]),
+        DP_AL = hl.int32(ht.spliceai[7]),
+        DP_DG = hl.int32(ht.spliceai[8]),
+        DP_DL = hl.int32(ht.spliceai[9])
     ))
-
-    # drop info and add aggregates
-    ht = ht.drop(ht.info)
+    ht = ht.drop(ht.info, ht.spliceai)    
+    
+    # aggregate information so it's easier to
+    ht = ht.transmute(
+        SpliceAI=ht.SpliceAI.annotate(
+            DS_max=hl.max(
+                hl.array([
+                   ht.SpliceAI.DS_AG,
+                   ht.SpliceAI.DS_AL,
+                   ht.SpliceAI.DS_DG,
+                   ht.SpliceAI.DS_DL
+                ])),
+            DS_AX_max=hl.max(
+                hl.array([
+                   ht.SpliceAI.DS_AG,
+                   ht.SpliceAI.DS_AL
+                ])),
+            DS_DX_max=hl.max(
+                hl.array([
+                   ht.SpliceAI.DS_DG,
+                   ht.SpliceAI.DS_DL
+                ]))
+        )
+    )      
     ht.write(out_prefix + ".ht")
 
 if __name__=='__main__':

@@ -10,9 +10,8 @@
 #SBATCH --error=logs/process_spliceai.errors.log
 #SBATCH --partition=short
 #SBATCH --cpus-per-task 1
-#SBATCH --array=22
+#SBATCH --array=1-21
 
-#
 #$ -N process_spliceai
 #$ -wd /well/lindgren-ukbb/projects/ukbb-11867/flassen/projects/KO/for_nik
 #$ -o logs/process_spliceai.log
@@ -20,7 +19,7 @@
 #$ -P lindgren.prjc
 #$ -pe shmem 1
 #$ -q short.qc
-#$ -t 23
+#$ -t 22
 #$ -V
 
 set -o errexit
@@ -35,9 +34,10 @@ readonly array_idx=$( get_array_task_id )
 readonly chr=$( get_chr ${array_idx} )
 
 readonly spliceai_dir="data/spliceai"
-readonly spliceai_path="${spliceai_dir}/ukb_wes_450k.qced.sites_only.all.vcf"
+readonly spliceai_path="${spliceai_dir}/spliceai_annos.mt"
+readonly spliceai_type="mt"
 
-readonly out_dir="data/vep/spliceai"
+readonly out_dir="data/spliceai"
 readonly out_prefix="${out_dir}/ukb_wes_450k.spliceai.chr${chr}"
 readonly hail_script="scripts/02_process_spliceai.py"
 
@@ -47,9 +47,9 @@ mkdir -p ${spark_dir}
 set_up_hail 0.2.97
 set_up_pythonpath_legacy  
 python3 ${hail_script} \
-     --spliceai_path "${splcieai_path}" \
-     --chrom "${chrom}" \
-     --out_prefix "${out_prefix}"
+     --spliceai_path "${spliceai_path}" \
+     --out_prefix "${out_prefix}" \
+     --chrom "chr${chr}"
 
 
 
