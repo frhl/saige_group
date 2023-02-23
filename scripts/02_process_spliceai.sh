@@ -10,7 +10,7 @@
 #SBATCH --error=logs/process_spliceai.errors.log
 #SBATCH --partition=short
 #SBATCH --cpus-per-task 1
-#SBATCH --array=22
+#SBATCH --array=23
 
 #$ -N process_spliceai
 #$ -wd /well/lindgren-ukbb/projects/ukbb-11867/flassen/projects/KO/for_nik
@@ -44,6 +44,7 @@ readonly hail_script="scripts/02_process_spliceai.py"
 mkdir -p ${out_dir}
 mkdir -p ${spark_dir}
 
+set +eu
 set_up_hail 0.2.97
 set_up_pythonpath_legacy  
 python3 ${hail_script} \

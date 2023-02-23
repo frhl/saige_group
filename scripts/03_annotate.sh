@@ -10,7 +10,7 @@
 #SBATCH --error=logs/annotate.errors.log
 #SBATCH --partition=short
 #SBATCH --cpus-per-task 1
-#SBATCH --array=1-22
+#SBATCH --array=23
 
 #
 #$ -N annotate
@@ -47,6 +47,7 @@ readonly hail_script="scripts/03_annotate.py"
 mkdir -p ${out_dir}
 mkdir -p ${spark_dir}
 
+set +eu
 set_up_hail 0.2.97
 set_up_pythonpath_legacy  
 python3 ${hail_script} \

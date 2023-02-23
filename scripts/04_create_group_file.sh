@@ -10,7 +10,7 @@
 #SBATCH --error=logs/create_group_file.errors.log
 #SBATCH --partition=short
 #SBATCH --cpus-per-task 1
-#SBATCH --array=22
+#SBATCH --array=23
 
 #
 #$ -N create_group_file
@@ -38,7 +38,7 @@ readonly in_dir="data/vep/annotated"
 readonly in_path="${in_dir}/ukb_wes_450k.qced.brava.v1.chr${chr}.worst_csq_by_gene_canonical.txt.gz"
 
 readonly out_dir="data/vep/saige_group"
-readonly out_saige="${out_dir}/ukb_wes_450k.qced.brava.v1.saige_group.chr${chr}.worst_csq_by_gene_canonical.txt.gz"
+readonly out_saige="${out_dir}/ukb_wes_450k.qced.brava.v1.saige_group.chr${chr}.worst_csq_by_gene_canonical.txt"
 
 mkdir -p ${out_dir}
 
@@ -47,4 +47,7 @@ Rscript ${rscript} \
   --input_path "${in_path}" \
   --output_path "${out_saige}" \
   --delimiter " "
+
+gzip ${out_saige}
+
 
