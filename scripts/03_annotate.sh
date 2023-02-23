@@ -10,7 +10,7 @@
 #SBATCH --error=logs/annotate.errors.log
 #SBATCH --partition=short
 #SBATCH --cpus-per-task 1
-#SBATCH --array=20-22
+#SBATCH --array=1-22
 
 #
 #$ -N annotate
@@ -23,8 +23,8 @@
 #$ -t 22
 #$ -V
 
-set -o errexit
-set -o nounset
+#set -o errexit
+#set -o nounset
 
 source utils/qsub_utils.sh
 source utils/hail_utils.sh

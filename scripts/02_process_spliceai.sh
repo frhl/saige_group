@@ -10,7 +10,7 @@
 #SBATCH --error=logs/process_spliceai.errors.log
 #SBATCH --partition=short
 #SBATCH --cpus-per-task 1
-#SBATCH --array=1-21
+#SBATCH --array=22
 
 #$ -N process_spliceai
 #$ -wd /well/lindgren-ukbb/projects/ukbb-11867/flassen/projects/KO/for_nik

@@ -55,7 +55,7 @@ def main(args):
     )
 
     ht = ht.select(*[ht.varid, ht.gene_symbol, ht.gene_id, ht.consequence_category])
-    ht.export(out_prefix + ".worst_csq_by_gene_canonical.brava.v1.txt.gz")
+    ht.export(out_prefix + ".worst_csq_by_gene_canonical.txt.gz")
 
 
 if __name__=='__main__':

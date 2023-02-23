@@ -20,7 +20,7 @@
 #$ -P lindgren.prjc
 #$ -pe shmem 1
 #$ -q short.qc
-#$ -t 23
+#$ -t 22
 #$ -V
 
 set -o errexit
@@ -29,16 +29,16 @@ set -o nounset
 source utils/bash_utils.sh
 source utils/qsub_utils.sh
 
-readonly rscript="scripts/03_create_group_file.R"
+readonly rscript="scripts/04_create_group_file.R"
 
 readonly array_idx=$( get_array_task_id )
 readonly chr=$( get_chr ${array_idx} )
 
-readonly in_dir="data/vep/explode"
-readonly in_path="${in_dir}/ukb_wes_450k.qced.chr${chr}.worst_csq_by_gene_canonical.txt.gz"
+readonly in_dir="data/vep/annotated"
+readonly in_path="${in_dir}/ukb_wes_450k.qced.brava.v1.chr${chr}.worst_csq_by_gene_canonical.txt.gz"
 
-readonly out_dir="data/vep/saige_group_files"
-readonly out_saige="${out_dir}/ukb_wes_450k.qced.chr${chr}.worst_csq_by_gene_canonical.saige.txt.gz"
+readonly out_dir="data/vep/saige_group"
+readonly out_saige="${out_dir}/ukb_wes_450k.qced.brava.v1.saige_group.chr${chr}.worst_csq_by_gene_canonical.txt.gz"
 
 mkdir -p ${out_dir}
 
