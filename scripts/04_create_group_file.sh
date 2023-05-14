@@ -37,7 +37,7 @@ readonly chr=$( get_chr ${array_idx} )
 readonly in_dir="data/vep/annotated/v2"
 readonly in_path="${in_dir}/ukb_wes_450k.qced.brava.v2.chr${chr}.worst_csq_by_gene_canonical.txt.gz"
 
-readonly out_dir="data/vep/saige_group/v2"
+readonly out_dir="data/vep/saige_group/v2-other-missense"
 readonly out_saige="${out_dir}/ukb_wes_450k.qced.brava.v2.saige_group.chr${chr}.worst_csq_by_gene_canonical.txt"
 
 mkdir -p ${out_dir}

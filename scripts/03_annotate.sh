@@ -5,23 +5,12 @@
 #
 #SBATCH --account=lindgren.prj
 #SBATCH --job-name=annotate
-#SBATCH --chdir=/well/lindgren-ukbb/projects/ukbb-11867/flassen/projects/KO/for_nik
+#SBATCH --chdir=/well/lindgren/barney/for_nik
 #SBATCH --output=logs/annotate.log
 #SBATCH --error=logs/annotate.errors.log
 #SBATCH --partition=short
 #SBATCH --cpus-per-task 1
-#SBATCH --array=1-23
-
-#
-#$ -N annotate
-#$ -wd /well/lindgren-ukbb/projects/ukbb-11867/flassen/projects/KO/for_nik
-#$ -o logs/annotate.log
-#$ -e logs/annotate.errors.log
-#$ -P lindgren.prjc
-#$ -pe shmem 1
-#$ -q short.qc
-#$ -t 22
-#$ -V
+#SBATCH --array=23
 
 #set -o errexit
 #set -o nounset
@@ -29,7 +18,8 @@
 source utils/qsub_utils.sh
 source utils/hail_utils.sh
 
-readonly spark_dir="data/tmp/spark"
+#readonly spark_dir="data/tmp/spark"
+readonly spark_dir="/tmp/"
 
 readonly array_idx=$( get_array_task_id )
 readonly chr=$( get_chr ${array_idx} )
