@@ -5,22 +5,12 @@
 #
 #SBATCH --account=lindgren.prj
 #SBATCH --job-name=process_spliceai
-#SBATCH --chdir=/well/lindgren-ukbb/projects/ukbb-11867/flassen/projects/KO/for_nik
+#SBATCH --chdir=/well/lindgren/barney/for_nik
 #SBATCH --output=logs/process_spliceai.log
 #SBATCH --error=logs/process_spliceai.errors.log
 #SBATCH --partition=short
 #SBATCH --cpus-per-task 1
-#SBATCH --array=23
-
-#$ -N process_spliceai
-#$ -wd /well/lindgren-ukbb/projects/ukbb-11867/flassen/projects/KO/for_nik
-#$ -o logs/process_spliceai.log
-#$ -e logs/process_spliceai.errors.log
-#$ -P lindgren.prjc
-#$ -pe shmem 1
-#$ -q short.qc
-#$ -t 22
-#$ -V
+#SBATCH --array=1-23
 
 set -o errexit
 set -o nounset
@@ -32,7 +22,6 @@ readonly spark_dir="data/tmp/spark"
 
 readonly array_idx=$( get_array_task_id )
 readonly chr=$( get_chr ${array_idx} )
-
 readonly spliceai_dir="data/spliceai"
 readonly spliceai_path="${spliceai_dir}/spliceai_annos.mt"
 readonly spliceai_type="mt"

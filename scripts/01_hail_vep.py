@@ -19,7 +19,7 @@ def main(args):
     hail_init.hail_bmrc_init_local('logs/hail/hail_format.log', 'GRCh38')
     hl._set_flags(no_whole_stage_codegen='1') # from zulip
     ht = hl.read_table(input_path)
-    ht = process_consequences(hl.vep(ht, "utils/configs/vep_final.json"))
+    ht = process_consequences(hl.vep(ht, "utils/configs/vep105.json"))
 
     # write out VEP hail table
     ht.write(out_prefix + ".vep.ht", overwrite=True)
