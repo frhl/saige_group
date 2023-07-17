@@ -199,6 +199,22 @@ check_file_count() {
 }
 
 
+set_up_vep_105() {
+  module load EnsEMBLCoreAPI/96.0-r20190601-foss-2019a-Perl-5.28.1
+  module load HTSlib/1.9-GCC-8.2.0-2.31.1
+  export PERL5LIB="/well/lindgren/flassen/software/VEP/vep105:$PERL5LIB"
+  export PERL5LIB="/apps/eb/skylake/software/EnsEMBLCoreAPI/96.0-r20190601-foss-2019a-Perl-5.28.1/lib/perl5/site_perl/5.28.1/x86_64-linux-thread-multi:$PERL5LIB"  
+}
+
+
+#set_up_vep105() {
+#  module load EnsEMBLCoreAPI/96.0-r20190601-foss-2019a-Perl-5.28.1
+#  export PERL5LIB="/well/lindgren/flassen/software/VEP/vep105/cache:$PERL5LIB"
+#  export PATH="/well/lindgren/flassen/software/VEP/vep105/cache:$PATH"
+#  export PATH="/well/lindgren/flassen/software/VEP/vep105/ensembl-vep:$PATH"
+#}
+
+
 # setup modules required for running VEP on HAIL using LOFTEE plugin
 set_up_vep() {
   module load EnsEMBLCoreAPI/96.0-r20190601-foss-2019a-Perl-5.28.1 # required for LOFTEE

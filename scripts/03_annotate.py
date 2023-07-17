@@ -18,6 +18,15 @@ def main(args):
     hail_init.hail_bmrc_init_local('logs/hail/hail_format.log', 'GRCh38')
     hl._set_flags(no_whole_stage_codegen='1') # from zulip
     ht = hl.read_table(vep_path)
+    
+    ### count synonymous
+    test = ht.explode(ht.vep.worst_csq_by_gene_canonical)
+    test.filter_rows(test.vep.worst_csq_by_gene_canonical == 'synonymous')
+    print('thecount')
+    print(test.count())
+    
+    ###
+    
     spliceai = hl.read_table(spliceai_path)
     
     # get variant by canonical gene transcripts
