@@ -199,16 +199,49 @@ check_file_count() {
 }
 
 
-set_up_vep_105() {
+#set_up_vep105() {
+#  module load EnsEMBLCoreAPI/96.0-r20190601-foss-2019a-Perl-5.28.1
+#  module load HTSlib/1.9-GCC-8.2.0-2.31.1
+#  export PATH="/well/lindgren/flassen/software/VEP/vep105/cache:$PATH"
+#  export PATH="/well/lindgren/flassen/software/VEP/vep105/ensembl-vep:$PATH"
+#  export PERL5LIB="/well/lindgren/flassen/software/VEP/vep105:$PERL5LIB"
+#  #export PERL5LIB="/apps/eb/skylake/software/EnsEMBLCoreAPI/96.0-r20190601-foss-2019a-Perl-5.28.1/lib/perl5/site_perl/5.28.1/x86_64-linux-thread-multi:$PERL5LIB"  
+#}
+
+set_up_vep109() {
+  module load EnsEMBLCoreAPI/96.0-r20190601-foss-2019a-Perl-5.28.1
+  module load HTSlib/1.9-GCC-8.2.0-2.31.1
+  export PERL5LIB="/well/lindgren/barney/.vep:$PERL5LIB"
+  export PERL5LIB="/well/lindgren/barney/VEP/modules:$PERL5LIB"
+  export PERL5LIB="/well/lindgren/barney/VEP:$PERL5LIB"
+  export PATH="/well/lindgren/barney/.vep/htslib:$PATH"
+}
+
+
+set_up_vep107() {
+  module load VEP/107-GCC-11.3.0
+  #module load samtools/1.8-gcc5.4.0 # required for LOFTEE 
+  #export PERL5LIB=$PERL5LIB:/well/lindgren/flassen/software/VEP/plugins_grch38/
+}
+
+set_up_vep105() {
   module load EnsEMBLCoreAPI/96.0-r20190601-foss-2019a-Perl-5.28.1
   module load HTSlib/1.9-GCC-8.2.0-2.31.1
   export PERL5LIB="/well/lindgren/flassen/software/VEP/vep105:$PERL5LIB"
-  export PERL5LIB="/apps/eb/skylake/software/EnsEMBLCoreAPI/96.0-r20190601-foss-2019a-Perl-5.28.1/lib/perl5/site_perl/5.28.1/x86_64-linux-thread-multi:$PERL5LIB"  
+  export PERL5LIB="/apps/eb/skylake/software/EnsEMBLCoreAPI/96.0-r20190601-foss-2019a-Perl-5.28.1/lib/perl5/site_perl/5.28.1/x86_64-linux-thread-multi:$PERL5LIB"
 }
 
 
 #set_up_vep105() {
-#  module load EnsEMBLCoreAPI/96.0-r20190601-foss-2019a-Perl-5.28.1
+#  >&2 echo "Setting up VEP 105"
+#  module load GCC/11.3.0
+#  module load Perl/5.34.1-GCCcore-11.3.0
+#  module load Archive-Zip/1.68-GCCcore-11.3.0
+#  module load DBD-mysql/4.050-GCC-11.3.0
+#  module load BioPerl/1.7.8-GCCcore-11.3.0
+#  module load Bio-DB-HTS/3.01-GCC-11.3.0
+#  module load Compress-Raw-Zlib/2.202-GCCcore-11.3.0 
+#  #module load EnsEMBLCoreAPI/96.0-r20190601-foss-2019a-Perl-5.28.1
 #  export PERL5LIB="/well/lindgren/flassen/software/VEP/vep105/cache:$PERL5LIB"
 #  export PATH="/well/lindgren/flassen/software/VEP/vep105/cache:$PATH"
 #  export PATH="/well/lindgren/flassen/software/VEP/vep105/ensembl-vep:$PATH"
